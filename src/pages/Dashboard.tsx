@@ -20,7 +20,11 @@ interface DashboardFilters {
 
 export default function Dashboard() {
   const { id } = useParams<{ id: string }>();
-  const [filters, setFilters] = useState<DashboardFilters>({ dateRange: '30d' });
+  const [filters, setFilters] = useState<DashboardFilters>({ 
+    dateRange: '30d',
+    region: 'all-regions',
+    propertyType: 'all-types'
+  });
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const { data: config, isLoading, error, refetch } = useQuery({
@@ -173,12 +177,12 @@ export default function Dashboard() {
 
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4 text-muted-foreground" />
-                <Select value={filters.region} onValueChange={(value) => handleFilterChange('region', value)}>
+                <Select value={filters.region || 'all-regions'} onValueChange={(value) => handleFilterChange('region', value)}>
                   <SelectTrigger className="w-40 bg-background/50 border-border/50">
                     <SelectValue placeholder="All regions" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All regions</SelectItem>
+                    <SelectItem value="all-regions">All regions</SelectItem>
                     <SelectItem value="downtown">Downtown</SelectItem>
                     <SelectItem value="suburbs">Suburbs</SelectItem>
                     <SelectItem value="waterfront">Waterfront</SelectItem>
@@ -188,12 +192,12 @@ export default function Dashboard() {
 
               <div className="flex items-center gap-2">
                 <Home className="h-4 w-4 text-muted-foreground" />
-                <Select value={filters.propertyType} onValueChange={(value) => handleFilterChange('propertyType', value)}>
+                <Select value={filters.propertyType || 'all-types'} onValueChange={(value) => handleFilterChange('propertyType', value)}>
                   <SelectTrigger className="w-40 bg-background/50 border-border/50">
                     <SelectValue placeholder="All types" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All types</SelectItem>
+                    <SelectItem value="all-types">All types</SelectItem>
                     <SelectItem value="apartment">Apartment</SelectItem>
                     <SelectItem value="house">House</SelectItem>
                     <SelectItem value="condo">Condo</SelectItem>
